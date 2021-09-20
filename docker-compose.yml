@@ -8,6 +8,28 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: password
 
+  calculator-user:
+    container_name: calculator-user
+    build:
+      context: calculator-user
+      dockerfile: Dockerfile
+    image: calculator-user:latest
+    ports:
+      - 18888:8888
+    networks:
+      - spring-cloud-network
+  
+  calculator-operation:
+    container_name: calculator-operation
+    build:
+      context: calculator-operation
+      dockerfile: Dockerfile
+    image: calculator-operation:latest
+    ports:
+      - 19999:9999
+    networks:
+      - spring-cloud-network
+      
   localstack:
     image: localstack/localstack-full
     container_name: localstack
@@ -26,3 +48,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./localstack-entrypoint.sh:/docker-entrypoint-initaws.d/localstack-entrypoint.sh
+      
+networks:
+  spring-cloud-network:
+    driver: bridge
+   
