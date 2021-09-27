@@ -1,13 +1,12 @@
 /*
  * Copyright (c) 2021 by Dhanaraj S. All rights reserved.
  *
- * Sep 19, 2021
+ * Sep 26, 2021
  *
  */
 package com.calculator.operation.repository;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -26,9 +25,8 @@ public interface CalculationRepository extends JpaRepository<CalculationEntity, 
 	 * @param firstOperand  the first operand
 	 * @param secondOperand the second operand
 	 * @param operator      the operator
-	 * @return the optional
 	 */
-	Optional<CalculationEntity> findByFirstOperandAndSecondOperandAndOperator(BigDecimal firstOperand, BigDecimal secondOperand,
+	CalculationEntity findByFirstOperandAndSecondOperandAndOperator(BigDecimal firstOperand, BigDecimal secondOperand,
 			String operator);
 
 }

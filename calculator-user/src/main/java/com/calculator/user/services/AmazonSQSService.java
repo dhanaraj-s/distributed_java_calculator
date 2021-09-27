@@ -7,14 +7,13 @@
 package com.calculator.user.services;
 
 import org.springframework.messaging.MessagingException;
-import org.springframework.stereotype.Service;
 
 import com.calculator.user.model.CalculatorRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
  * The Interface AmazonSQSService.
  */
-@Service
 public interface AmazonSQSService {
 
 	/**
@@ -29,8 +28,10 @@ public interface AmazonSQSService {
 	 * Publish request.
 	 *
 	 * @param calculatorRequest the calculator request
+	 * @return 
 	 * @throws MessagingException the messaging exception
+	 * @throws JsonProcessingException 
 	 */
-	void publishRequest(CalculatorRequest calculatorRequest) throws MessagingException;
+	boolean publishRequest(CalculatorRequest calculatorRequest) throws MessagingException, JsonProcessingException;
 
 }

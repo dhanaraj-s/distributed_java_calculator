@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-readonly LOCALSTACK_SQS_URL=http://localhost:4566
+readonly LOCALSTACK_SQS_URL=http://localstack:4566
 
 sleep 5;
 

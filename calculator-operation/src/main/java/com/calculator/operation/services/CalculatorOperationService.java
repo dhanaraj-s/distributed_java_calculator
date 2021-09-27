@@ -1,21 +1,18 @@
 /*
  * Copyright (c) 2021 by Dhanaraj S. All rights reserved.
  *
- * Sep 19, 2021
+ * Sep 26, 2021
  *
  */
 package com.calculator.operation.services;
 
 import java.math.BigDecimal;
 
-import org.springframework.stereotype.Service;
-
 import com.calculator.operation.model.CalculatorRequest;
 
 /**
  * The Interface CalculatorOperationService.
  */
-@Service
 public interface CalculatorOperationService {
 	
 	/**
@@ -24,14 +21,15 @@ public interface CalculatorOperationService {
 	 * @param request the request
 	 * @return true, if is operation exists
 	 */
-	boolean isOperationExists(CalculatorRequest request);
+	BigDecimal isOperationExists(CalculatorRequest request);
 	
 	/**
 	 * Perform calculation.
 	 *
 	 * @param request the request
 	 * @return the big decimal
+	 * @throws ArithmeticException the arithmetic exception
 	 */
-	BigDecimal performCalculation(CalculatorRequest request);
+	BigDecimal performCalculation(CalculatorRequest request) throws ArithmeticException;
 
 }

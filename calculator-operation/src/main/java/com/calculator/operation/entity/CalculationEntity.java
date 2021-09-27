@@ -45,11 +45,11 @@ public class CalculationEntity implements Serializable {
     private Long id;
 
 	/** The first operand. */
-	@Column(nullable = false)
+	@Column(nullable=false, precision=20, scale=10)
     private BigDecimal firstOperand;
 
 	/** The second operand. */
-	@Column(nullable = false)
+	@Column(nullable=false, precision=20, scale=10)
     private BigDecimal secondOperand;
     
 	/** The operator. */
@@ -57,7 +57,7 @@ public class CalculationEntity implements Serializable {
     private String operator;
     
 	/** The result. */
-	@Column(nullable = false)
+	@Column(nullable=false, precision=20, scale=10)
     private BigDecimal result;
 
     /** The created at. */

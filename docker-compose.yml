@@ -2,12 +2,41 @@ version: "3.7"
 
 services:
   db:
-    image: mysql
+    image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password
-
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=calculator_db
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=password
+      - MYSQL_TCP_PORT=6034
+    ports:
+      - 6034:6034
+    volumes:
+      - db-data:/var/lib/mysql 
+    networks:
+      - dev-network      
+     
+  localstack:
+    image: localstack/localstack:latest
+    ports:
+      - 4566:4566
+    environment:
+      - EDGE_PORT=4566
+      - SERVICES=sqs
+      - DEBUG=1
+      - DATA_DIR=./tmp/localstack/data
+      - DEFAULT_REGION=us-east-1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - HOSTNAME_EXTERNAL=localstack
+    volumes:
+      - "./localstack-entrypoint.sh:/docker-entrypoint-initaws.d/localstack-entrypoint.sh"
+      - /tmp/localstack:/tmp/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - dev-network
+      
   calculator-user:
     container_name: calculator-user
     build:
@@ -15,9 +44,11 @@ services:
       dockerfile: Dockerfile
     image: calculator-user:latest
     ports:
-      - 18888:8888
+      - 8888:8888
+    depends_on:
+      - localstack
     networks:
-      - spring-cloud-network
+      - dev-network
   
   calculator-operation:
     container_name: calculator-operation
@@ -25,31 +56,25 @@ services:
       context: calculator-operation
       dockerfile: Dockerfile
     image: calculator-operation:latest
-    ports:
-      - 19999:9999
-    networks:
-      - spring-cloud-network
-      
-  localstack:
-    image: localstack/localstack-full
-    container_name: localstack
-    ports:
-      - 4566:4566
-      - 8080:8080
+    #command: bash ./wait-for-it.sh http://localhost:4566 --strict -- java -jar /calculator-operation-0.0.1-SNAPSHOT.jar
+    command: sh -c "dockerize -wait tcp://db:6034 -wait tcp://localstack:4566 -timeout 300s -wait-retry-interval 60s -- java -jar /calculator-operation-0.0.1-SNAPSHOT.jar"
     environment:
-      - SERVICES=sqs
-      - PORT_WEB_UI=8080
-      - DEBUG=0
-      - DATA_DIR=./tmp/localstack/data
-      - LAMBDA_EXECUTOR=local
-      - KINESIS_ERROR_PROBABILITY=0
-      - DOCKER_HOST=unix:///var/run/docker.sock
-      - LOCALSTACK_HOSTNAME=localhost
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./localstack-entrypoint.sh:/docker-entrypoint-initaws.d/localstack-entrypoint.sh
+      - DATABASE_HOST=db
+      - DATABASE_USER=mysql
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=calculator_db
+      - DATABASE_PORT=6034
+    ports:
+      - 9999:9999
+    depends_on:
+      - db
+      - localstack
+    networks:
+      - dev-network
       
+volumes:
+  db-data:
+
 networks:
-  spring-cloud-network:
-    driver: bridge
-   
+  dev-network:
+    driver: overlay

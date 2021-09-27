@@ -25,9 +25,13 @@ public class CalculatorRequest implements Serializable {
 
 	/** The operator. */
 	String operator;
-
+	
 	/** The result. */
 	BigDecimal result;
+
+	public CalculatorRequest() {
+		super();
+	}
 
 	/**
 	 * Gets the first operand.
@@ -82,7 +86,7 @@ public class CalculatorRequest implements Serializable {
 	public void setOperator(String operator) {
 		this.operator = operator;
 	}
-
+	
 	/**
 	 * Gets the result.
 	 *
@@ -101,4 +105,78 @@ public class CalculatorRequest implements Serializable {
 		this.result = result;
 	}
 
+	/**
+	 * Instantiates a new calculator request.
+	 *
+	 * @param firstOperand  the first operand
+	 * @param secondOperand the second operand
+	 * @param operator      the operator
+	 * @param result        the result
+	 */
+	public CalculatorRequest(BigDecimal firstOperand, BigDecimal secondOperand, String operator, BigDecimal result) {
+		super();
+		this.firstOperand = firstOperand;
+		this.secondOperand = secondOperand;
+		this.operator = operator;
+		this.result = result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CalculatorRequest [firstOperand=" + firstOperand + ", secondOperand=" + secondOperand + ", operator="
+				+ operator + ", result=" + result + "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((firstOperand == null) ? 0 : firstOperand.hashCode());
+		result = prime * result + ((operator == null) ? 0 : operator.hashCode());
+		result = prime * result + ((this.result == null) ? 0 : this.result.hashCode());
+		result = prime * result + ((secondOperand == null) ? 0 : secondOperand.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CalculatorRequest other = (CalculatorRequest) obj;
+		if (firstOperand == null) {
+			if (other.firstOperand != null)
+				return false;
+		} else if (!firstOperand.equals(other.firstOperand))
+			return false;
+		if (operator == null) {
+			if (other.operator != null)
+				return false;
+		} else if (!operator.equals(other.operator))
+			return false;
+		if (result == null) {
+			if (other.result != null)
+				return false;
+		} else if (!result.equals(other.result))
+			return false;
+		if (secondOperand == null) {
+			if (other.secondOperand != null)
+				return false;
+		} else if (!secondOperand.equals(other.secondOperand))
+			return false;
+		return true;
+	}
+	
 }
