@@ -31,8 +31,8 @@ Please choose frameworks, databases, and ORM at its discretion.
 - https://github.com/localstack/localstack
 - https://aws.amazon.com/sqs/faqs/
 
-# Implementation of above Requirement:
-# Few rhings to note while bringing this event driven architecture up using docker-compose
+# Implementation of above Requirements:
+# Few things to note while bringing this event driven architecture up using docker-compose
 
 Create a network with overlay driver mode to share across the Springboot Applications, MySQL and LocalStack
 
