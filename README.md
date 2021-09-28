@@ -87,8 +87,8 @@ Localstack Service
 - We invoke the send() method on the MessageChannel by specifying a timeout interval. The send() method is a blocking call so it is always advisable to set a timeout when calling this method. Messages are created using the MessageBuilder helper class. 
 
 	Message<String> msg = MessageBuilder.withPayload(messagePayload)
-	 .setHeader("sender", "app1")
-	 .setHeaderIfAbsent("country", "AE")
+	 .setHeader("sender", "calculator-application")
+	 .setHeaderIfAbsent("country", "CA")
 	 .build();
 	
 	...
